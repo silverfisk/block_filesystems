@@ -1,0 +1,26 @@
+---
+- block:
+  - name: "create filesystem on {{ item.device_name }}"
+    filesystem:
+      dev: "{{ item.device_name }}"
+      fstype: "{{ item.fstype }}"
+      resizefs: "{{ item.resizefs }}"
+    with_items: "{{ volumes }}"
+    when: (volumes is defined) and (item.fstype != 'swap')
+
+  - name: "Create mountpoint"
+    file:
+      path: "{{ item.mount_point }}"
+      state: directory
+      mode: "{{ mntpoint_mode }}"
+    with_items: "{{ volumes }}"
+    when: (volumes is defined) and (item.fstype != 'swap')
+
+  - name: "Mount {{ item.device_name }} on {{ item.mount_point }}"
+    mount:
+      src: "{{ item.device_name }}"
+      path: "{{ item.mount_point }}"
+      fstype: "{{ item.fstype }}"
+      state: "mounted"
+    with_items: "{{ volumes }}"
+    when: (volumes is defined) and (item.fstype != 'swap')
