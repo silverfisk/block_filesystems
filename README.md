@@ -1,4 +1,4 @@
-# ec2-instance
+# block_filesystems
 
 Ansible role that formats and mounts block devices according to ```volumes``` variable.
 
@@ -11,7 +11,7 @@ volumes:
   - device_name: /dev/xvdb
     volume_type: gp2
     volume_size: 20
-    mount_point: /usr/sap
+    mount_point: /usr/foo
     fstype: xfs
     encrypt: "yes"
     resizefs: yes
